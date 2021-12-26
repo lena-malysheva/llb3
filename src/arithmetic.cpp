@@ -43,6 +43,8 @@ Tlexeme::~Tlexeme()
 
 void Tlexeme::Fill(string a)
 { Size = a.length();
+  delete[] mLexeme;
+  delete[] priority;
   mLexeme = new string[Size];
   priority = new int[Size];
   TStack <char> S1;
@@ -99,6 +101,8 @@ void Tlexeme::Divide()
     }
   if (S1 != "") { mLexeme1[j] = S1; priority1[j] = 2; S1 = ""; j++; }
   Size=j;
+  delete[] mLexeme;
+  delete[] priority;
   mLexeme = new string[Size];
   priority = new int[Size];
   for (int i = 0; i < Size; i++)
@@ -106,6 +110,8 @@ void Tlexeme::Divide()
     priority[i] = priority1[i];
   }
   if(Flag==-1){Flag=1;}
+  delete[] mLexeme1;
+  delete[] priority1;
 }
 int Tlexeme::Check_correct()
 {  if(Flag==2){return 1;}
@@ -195,8 +201,12 @@ void Tlexeme::Pol_1()
   { if (priority[i] == 4) { Nbrack++; };
     if (priority[i] == 5) { priority[i] = 1; };   
   }
-    string* mLexeme1; mLexeme1 = mLexeme; mLexeme = new string[Size- Nbrack];
-    int* priority1; priority1 = priority; priority = new int[Size- Nbrack];
+    string* mLexeme1; mLexeme1 = mLexeme; 
+    delete[] mLexeme;
+    mLexeme = new string[Size- Nbrack];
+    int* priority1; priority1 = priority; 
+    delete[] priority;
+    priority = new int[Size- Nbrack];
     TStack <int> S1;
     int j=0;
     for (int i = 0; i < Size; i++)
@@ -246,8 +256,11 @@ void Tlexeme::Pol_1()
     { int q = S1.Pop(); mLexeme[j] = mLexeme1[q]; priority[j] = priority1[q]; j++;}
     Size = Size - Nbrack;  
     Flag = 2;
-  }}
+  }
+  
+  }
 }
+
 string Tlexeme::Pol()
 { Pol_1();
   if(Flag==2)
